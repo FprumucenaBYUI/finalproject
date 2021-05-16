@@ -18,7 +18,6 @@ const corsOptions = {
 };
 
 
-
 /**
  * Declare EJS for html rendering
  * Adding routes into the application
