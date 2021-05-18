@@ -4,7 +4,7 @@
  * Defining port 3000 for Heroku
  */
 const express = require('express');
-const productRoute = require('./routes/products-route');
+const shopRoute = require('./routes/shop_route');
 const adminRoute = require('./routes/admin-route');
 const errorController = require('./controllers/error-controller');
 const path = require('path');
@@ -16,6 +16,7 @@ const corsOptions = {
     origin: "https://finalproject-store.herokuapp.com/",
     optionsSuccessStatus: 200
 };
+const User = require('./models/user-model');
 
 
 /**
@@ -30,9 +31,19 @@ app.use(express.static(path.join(__dirname, 'public')))
     .set('view engine', 'ejs')
     .use(express.urlencoded({ extended: false }))
     .use(cors(corsOptions))
-    .use(productRoute)
+    .use(shopRoute)
     .use(adminRoute)
-    .use(errorController.get404);
+    .use(errorController.get404)
+    .use((req, res, next) => {
+        User.findById('60a0cc40b451edaab5df1f34')
+            .then(user => {
+                // req.user = new User(user.name, user.email, user.cart, user._id);
+                req.user = user;
+                next();
+            })
+            .catch(err => console.log(err));
+    });
+
 
 mongoConnect(() => {
     app.listen(PORT, () => {

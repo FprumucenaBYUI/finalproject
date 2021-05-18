@@ -20,36 +20,39 @@
 
                     <h4 class="mb-5">Add Product</h4>
                     <div class="card-body">
-                        <form action="/add-product" method="POST">
+                        <form action="/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" method="POST">
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label" for="inputProdTitle">Title</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" id="inputProdTitle" name="inputProdTitle" type="text" placeholder="Product Title">
+                                    <input class="form-control" id="inputProdTitle" name="inputProdTitle" type="text" placeholder="Product Title" value="<% if (editing) { %><%= product.title %><% } %>">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label" for="inputProdImgUrl">Image URL</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" id="inputProdImgURL" name="inputProdImgURL" type="text" placeholder="Image URL">
+                                    <input class="form-control" id="inputProdImgUrl" name="inputProdImgUrl" type="text" placeholder="Image URL" value="<% if (editing) { %><%= product.imageUrl %><% } %>">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label" for="inputProdPrice">Price</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" id="inputProdPrice" name="inputProdPrice" type="number" placeholder="$0.00">
+                                    <input class="form-control" id="inputProdPrice" name="inputProdPrice" type="number" placeholder="$0.00" value="<% if (editing) { %><%= product.price %><% } %>">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label" for="inputProdDesc">Description</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" id="inputProdDesc" name="inputProdDesc" type="text" placeholder="Product Description" rows="7"></textarea>
+                                    <textarea class="form-control" id="inputProdDesc" name="inputProdDesc" type="text" placeholder="Product Description" rows="7"><% if (editing) { %><%= product.description %><% } %></textarea>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <div class="col-sm-10">
-                                    <button class="btn btn-primary" type="submit">Add Product</button>
-                                </div>
-                            </div>
+                            <% if (editing) { %>
+                                <input type="hidden" value="<%= product._id %>" name="productId">
+                                <% } %>
+                                    <div class="form-group row">
+                                        <div class="col-sm-10">
+                                            <button class="btn btn-primary" type="submit"><% if (editing) { %>Update Product<% } else { %>Add Product<% } %></button>
+                                        </div>
+                                    </div>
                         </form>
                     </div>
                 </div>
