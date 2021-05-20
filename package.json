@@ -1,26 +1,25 @@
 {
-    "name": "cse341-store",
+    "name": "cse-341-store",
     "version": "1.0.0",
-    "description": "Final project for CSE 341 BYU Idaho Spring 2021",
-    "main": "index.js",
+    "description": "Final Project",
+    "main": "app.js",
     "scripts": {
-        "start": "nodemon index.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon app.js",
+        "start-server": "node app.js"
     },
-    "keywords": [
-        "ecommerce",
-        "store",
-        "nodejs",
-        "ejs"
-    ],
     "author": "Flavio Prumucena",
     "license": "ISC",
+    "devDependencies": {
+        "nodemon": "^1.18.3"
+    },
     "dependencies": {
+        "body-parser": "^1.18.3",
         "cors": "^2.8.5",
         "ejs": "^3.1.6",
         "express": "^4.17.1",
-        "lightbox2": "^2.11.3",
-        "mongodb": "^3.6.6",
-        "nodemon": "^2.0.7"
+        "express-handlebars": "^3.0.0",
+        "mongodb": "^3.6.7",
+        "sequelize": "^5.0.0-beta.11"
     }
 }
