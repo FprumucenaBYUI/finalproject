@@ -3,6 +3,7 @@ const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
 const errorController = require('./controllers/error');
+const secret = require('./secret/secret');
 
 const User = require('./models/user');
 const adminRoutes = require('./routes/admin');
@@ -14,7 +15,7 @@ const corsOptions = {
     optionsSuccessStatus: 200
 };
 const mongoose = require('mongoose');
-const MONGODB_URL = process.env.MONGODB_URL || "mongodb+srv://byuiUser:mg1UJztAC1ZNxZg5@cluster0.9q9ak.mongodb.net/CS341Store?retryWrites=true&w=majority";
+const MONGODB_URL = process.env.MONGODB_URL || secret.getMongoUrl;
 const options = {
     useUnifiedTopology: true,
     useNewUrlParser: true,
