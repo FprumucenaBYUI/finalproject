@@ -3,7 +3,7 @@ const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
 const errorController = require('./controllers/error');
-const mongoConnect = require('./util/database').mongoConnect;
+
 const User = require('./models/user');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
@@ -13,8 +13,13 @@ const corsOptions = {
     origin: "https://finalproject-store.herokuapp.com/",
     optionsSuccessStatus: 200
 };
-
-
+const mongoose = require('mongoose');
+const MONGODB_URL = process.env.MONGODB_URL || "mongodb+srv://byuiUser:mg1UJztAC1ZNxZg5@cluster0.9q9ak.mongodb.net/CS341Store?retryWrites=true&w=majority";
+const options = {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+    family: 4
+};
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -22,9 +27,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors(corsOptions));
 app.use((req, res, next) => {
-    User.findById('60a0cc40b451edaab5df1f34')
+    User.findById('60a72dcfd0630c368c670f3c')
         .then(user => {
-            req.user = new User(user.name, user.email, user.cart, user._id);
+            req.user = user;
             next();
         })
         .catch(err => console.log(err));
@@ -33,8 +38,26 @@ app.use((req, res, next) => {
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(errorController.get404);
-mongoConnect(() => {
-    app.listen(PORT, () => {
-        console.info(`Store Server running on Port ${PORT}`);
+
+mongoose
+    .connect(MONGODB_URL, options)
+    .then(result => {
+        User.findOne().then(user => {
+            if (!user) {
+                const user = new User({
+                    name: 'Fla',
+                    email: 'fla@test.com',
+                    cart: {
+                        items: []
+                    }
+                });
+                user.save();
+            }
+        });
+        app.listen(PORT, () => {
+            console.info(`Store Server running on Port ${PORT}`);
+        })
+    })
+    .catch(err => {
+        console.error(err);
     });
-});

@@ -3,13 +3,13 @@
         <tr>
             <th class="pl-0 border-0" scope="row">
                 <div class="media align-items-center">
-                    <a class="reset-anchor d-block animsition-link" href="detail.html"><img src="<%= p.imageUrl %>" alt="..." width="70" /></a>
+                    <a class="reset-anchor d-block animsition-link" href="detail.html"><img src="<%= p.productId.imageUrl %>" alt="..." width="70" /></a>
                     <div class="media-body ml-3"><strong class="h6"><a class="reset-anchor animsition-link" href="/detail"><%= p.title %></a></strong></div>
                 </div>
             </th>
             <td class="align-middle border-0">
                 <p class="mb-0 small">$
-                    <%= p.price %>
+                    <%= p.productId.price %>
                 </p>
             </td>
             <td class="align-middle border-0">
@@ -27,7 +27,7 @@
             <td class="align-middle border-0">
                 <!-- <p class="mb-0 small">$250</p> -->
                 <form action="/cart-delete-item" method="post">
-                    <input type="hidden" name="productId" value="<%= p._id %>">
+                    <input type="hidden" name="productId" value="<%= p.productId._id %>">
                     <button class="mb-0 small" type="submit">
                     <div class='icon'>
                       <i class='fa fa-trash-o'></i>
