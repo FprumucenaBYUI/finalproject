@@ -3,7 +3,7 @@ const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
 const errorController = require('./controllers/error');
-const secret = require('./secret/secret');
+// const secret = require('./secret/secret');
 
 const User = require('./models/user');
 const adminRoutes = require('./routes/admin');
