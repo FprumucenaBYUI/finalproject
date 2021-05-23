@@ -106,6 +106,7 @@
                                     <div class="col-md-6 text-md-right">
                                         <!-- <a class="btn btn-outline-dark btn-sm" href="/create-order">Order Now!<i class="fas fa-long-arrow-alt-right ml-2"></i></a> -->
                                         <form action="/create-order" method="post">
+                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                             <button class="btn btn-outline-dark btn-sm" type="submit">Order Now!</button>
                                         </form>
                                     </div>

@@ -28,6 +28,7 @@
                 <!-- <p class="mb-0 small">$250</p> -->
                 <form action="/cart-delete-item" method="post">
                     <input type="hidden" name="productId" value="<%= p.productId._id %>">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button class="mb-0 small" type="submit">
                     <div class='icon'>
                       <i class='fa fa-trash-o'></i>
