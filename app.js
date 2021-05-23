@@ -3,10 +3,6 @@ const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
 const errorController = require('./controllers/error');
-<<<<<<< HEAD
-=======
-
->>>>>>> 5c40c412804d2e56782f6b43a2c371d8bdc6e444
 const User = require('./models/user');
 
 //ROUTES 
@@ -23,17 +19,12 @@ const corsOptions = {
 };
 
 const mongoose = require('mongoose');
-<<<<<<< HEAD
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
 const flash = require('connect-flash');
 
 const MONGODB_URL = process.env.MONGODB_URL;
-=======
-const MONGODB_URL = process.env.MONGODB_URL;
-
->>>>>>> 5c40c412804d2e56782f6b43a2c371d8bdc6e444
 const options = {
     useUnifiedTopology: true,
     useNewUrlParser: true,
