@@ -84,29 +84,42 @@ exports.getEditProduct = (req, res, next) => {
         return res.redirect('/');
     }
 
+    req.user
+        .populate('cart.items.productId')
+        .execPopulate()
+        .then(user => {
+            const cartQuantity = () => {
+                const cartItems = user.cart.items;
+                let qtd = 0;
+                cartItems.forEach(item => {
+                    qtd += item.quantity;
+                });
+                return qtd;
+            };
 
-    const prodId = req.params.productId;
-    Product.findById(prodId)
-        .then(product => {
-            if (!product) {
-                return res.redirect('/');
-            }
-            res.render('admin/edit-product', {
-                pageTitle: 'Edit Product',
-                path: '/admin/edit-product',
-                editing: editMode,
-                product: product,
-                hasError: false,
-                errorMessage: null,
-                validationErrors: [],
-                isLoggedIn: req.session.isLoggedIn,
-                cartQuantity: cartQuantity()
-            });
-        })
-        .catch(err => {
-            const error = new Error(err);
-            error.httpStatusCode = 500;
-            return next(error);
+            const prodId = req.params.productId;
+            Product.findById(prodId)
+                .then(product => {
+                    if (!product) {
+                        return res.redirect('/');
+                    }
+                    res.render('admin/edit-product', {
+                        pageTitle: 'Edit Product',
+                        path: '/admin/edit-product',
+                        editing: editMode,
+                        product: product,
+                        hasError: false,
+                        errorMessage: null,
+                        validationErrors: [],
+                        isLoggedIn: req.session.isLoggedIn,
+                        cartQuantity: cartQuantity()
+                    });
+                })
+                .catch(err => {
+                    const error = new Error(err);
+                    error.httpStatusCode = 500;
+                    return next(error);
+                });
         });
 
 };
@@ -119,8 +132,9 @@ exports.postEditProduct = (req, res, next) => {
     const updatedDesc = req.body.description;
 
     const errors = validationResult(req);
-
+    console.log(errors);
     if (!errors.isEmpty()) {
+        console.log(errors.array()[0].msg);
         return res.status(422).render('admin/edit-product', {
             pageTitle: 'Edit Product',
             path: '/admin/edit-product',

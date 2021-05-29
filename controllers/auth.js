@@ -4,10 +4,15 @@ const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
 const { validationResult } = require('express-validator');
-
 const User = require('../models/user');
 
-const transporter = process.env.SENDGRID_KEY;
+const transporter = nodemailer.createTransport(
+    sendgridTransport({
+        auth: {
+            api_key: process.env.SENDGRID_KEY
+        }
+    })
+);
 
 exports.getLogin = (req, res, next) => {
     let message = req.flash('error');
@@ -56,6 +61,7 @@ exports.postLogin = (req, res, next) => {
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+        console.log(errors);
         return res.status(422).render('auth/login', {
             path: '/login',
             pageTitle: 'Login',
