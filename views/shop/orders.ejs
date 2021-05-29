@@ -32,33 +32,41 @@
             </section>
             <section class="py-5">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-lg-9 order-1 order-lg-2 mb-5 mb-lg-0">
-                            <div class="row">
-                                <% if (orders.length <= 0) { %>
-                                    <h1>Nothing there!</h1>
-                                    <% } else { %>
-                                        <ul class="orders">
-                                            <% orders.forEach(order => { %>
-                                                <li class="orders__item">
-                                                    <h1>Order - #
-                                                        <%= order._id %>
-                                                    </h1>
-                                                    <ul class="orders__products">
-                                                        <% order.products.forEach(p => { %>
-                                                            <li class="orders__products-item">
-                                                                <%= p.product.title %> (
-                                                                    <%= p.quantity %>)</li>
-                                                            <% }); %>
-                                                    </ul>
-                                                </li>
-                                                <% }); %>
-                                        </ul>
-                                        <% } %>
-                            </div>
-                            <!-- PAGINATION TBD-->
+                    <!-- <div class="row"> -->
+                    <% if (orders.length <= 0) { %>
+                        <div class="page-content">
+                            <h1>No orders to show!</h1>
                         </div>
-                    </div>
+                        <% } else { %>
+                            <div class="page-content-orders">
+                                <div class="row">
+                                    <% orders.forEach(order => { %>
+                                        <div class="column">
+                                            <div class="card card-body">
+                                                <div class="order-background">
+                                                    <p> <b> Order Number:</b>
+                                                        <%= order._id %>
+                                                    </p>
+                                                </div>
+                                                <div class="prod-background">
+                                                    <% order.products.forEach(p => { %>
+                                                        <p><b>Item:</b>
+                                                            <%= p.product.title %> (
+                                                                <%= p.quantity %>)</p>
+                                                        <% }); %>
+                                                            <p><b>Total:</b>
+                                                                <%= order.orderTotal %>
+                                                            </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% }); %>
+                                </div>
+                            </div>
+                            <% } %>
+                                <!-- PAGINATION TBD-->
+
+                                <!-- </div> -->
                 </div>
             </section>
         </div>
