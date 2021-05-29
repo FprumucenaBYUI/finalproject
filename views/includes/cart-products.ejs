@@ -3,8 +3,8 @@
         <tr>
             <th class="pl-0 border-0" scope="row">
                 <div class="media align-items-center">
-                    <a class="reset-anchor d-block animsition-link" href="detail.html"><img src="<%= p.product.imageUrl %>" alt="..." width="70" /></a>
-                    <div class="media-body ml-3"><strong class="h6"><a class="reset-anchor animsition-link" href="/detail"><%= p.title %></a></strong></div>
+                    <a class="reset-anchor d-block animsition-link" href="/products/<%= p.product._id%>"><img src="<%= p.product.imageUrl %>" alt="..." width="70" /></a>
+                    <div class="media-body ml-3"><strong class="h6"><a class="reset-anchor animsition-link" href="/products/<%= p.product._id%>"><%= p.title %></a></strong></div>
                 </div>
             </th>
             <td class="align-middle border-0">

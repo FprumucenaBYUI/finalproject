@@ -2,20 +2,62 @@ const Product = require('../models/product');
 const Order = require('../models/order');
 
 exports.getProducts = (req, res, next) => {
-    Product.find()
-        .then(products => {
-            console.log(products);
-            res.render('shop/product-list', {
-                prods: products,
-                pageTitle: 'All Products',
-                path: '/products'
+
+    const isLoggedIn = () => {
+        if (req.session.isLoggedIn == undefined || !req.session.isLoggedIn) {
+            return false;
+        }
+        return req.session.isLoggedIn;
+    };
+
+    let cartQuantity = 0;
+    if (isLoggedIn()) {
+        req.user
+            .populate('cart.items.productId')
+            .execPopulate()
+            .then(user => {
+                const cartQuantity = () => {
+                    const cartItems = user.cart.items;
+                    let qtd = 0;
+                    cartItems.forEach(item => {
+                        qtd += item.quantity;
+                    })
+                    return qtd;
+                };
+
+                Product.find()
+                    .then(products => {
+                        res.render('shop/product-list', {
+                            prods: products,
+                            pageTitle: 'All Products',
+                            isLoggedIn: isLoggedIn(),
+                            cartQuantity: cartQuantity(),
+                            path: '/'
+                        });
+                    })
+                    .catch(err => {
+                        const error = new Error(err);
+                        error.httpStatusCode = 500;
+                        return next(error);
+                    });
             });
-        })
-        .catch(err => {
-            const error = new Error(err);
-            error.httpStatusCode = 500;
-            return next(error);
-        });
+    } else {
+        Product.find()
+            .then(products => {
+                res.render('shop/product-list', {
+                    prods: products,
+                    pageTitle: 'All Products',
+                    isLoggedIn: isLoggedIn(),
+                    cartQuantity: cartQuantity,
+                    path: '/'
+                });
+            })
+            .catch(err => {
+                const error = new Error(err);
+                error.httpStatusCode = 500;
+                return next(error);
+            });
+    }
 };
 
 exports.getProduct = (req, res, next) => {
@@ -93,16 +135,6 @@ exports.getIndex = (req, res, next) => {
     }
 
 };
-
-
-
-// req.user
-//         .populate('cart.items.productId')
-//         .execPopulate()
-//         .then(user => {
-//             const products = user.cart.items.map(i => {
-//                 return { quantity: i.quantity, product: {...i.productId._doc } };
-//             });
 
 
 exports.getCart = (req, res, next) => {
